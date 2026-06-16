@@ -22,7 +22,7 @@
       }
     },
     "extra": {
-      "apiBaseUrl": "http://localhost:4000",
+      "apiBaseUrl": "https://ramadan-tracker-w6al.onrender.com",
       "googleWebClientId": "106791729690-j9o2s3knbblmoiu82gu73ctir444ataq.apps.googleusercontent.com",
       "googleIosClientId": "",
       "googleAndroidClientId": ""
