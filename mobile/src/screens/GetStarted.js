@@ -1,6 +1,5 @@
 import React, { useEffect, useRef } from 'react';
 import { Animated, View, Text, StyleSheet, Pressable } from 'react-native';
-import * as Google from 'expo-auth-session/providers/google';
 import Svg, { Circle, Path, Rect } from 'react-native-svg';
 import { Screen } from '../components/Screen';
 import { Button } from '../components/Button';
@@ -9,6 +8,7 @@ import { type, fonts } from '../theme/type';
 import { spacing, radius } from '../theme/spacing';
 import { useReduceMotion } from '../hooks/useReduceMotion';
 import { useAuth } from '../context/AuthContext';
+import { useGoogleAuth } from '../lib/google';
 import { api } from '../lib/api';
 
 function Crescent() {
@@ -31,15 +31,16 @@ export default function GetStarted({ navigation }) {
   const [googleLoading, setGoogleLoading] = React.useState(false);
   const { signIn } = useAuth();
 
-  const [googleRequest, googleResponse, googlePrompt] = Google.useAuthRequest({
-    clientId: '106791729690-j9o2s3knbblmoiu82gu73ctir444ataq.apps.googleusercontent.com',
-    scopes: ['profile', 'email'],
-  });
+  const { request: googleRequest, response: googleResponse, promptAsync: googlePrompt } = useGoogleAuth();
 
-  // Handle Google sign-in response
+  // Handle Google sign-in response. The id-token flow returns the JWT in
+  // response.params.id_token (some versions also expose authentication.idToken).
   React.useEffect(() => {
     if (googleResponse?.type === 'success') {
-      handleGoogleSignIn(googleResponse.authentication.idToken);
+      const idToken =
+        googleResponse.params?.id_token || googleResponse.authentication?.idToken;
+      if (idToken) handleGoogleSignIn(idToken);
+      else console.error('[google sign-in] no id_token in response');
     }
   }, [googleResponse]);
 
