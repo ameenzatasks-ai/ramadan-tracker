@@ -13,8 +13,7 @@ RUN npm ci --omit=dev
 # Copy the application source.
 COPY . .
 
-# The SQLite database lives on a mounted volume (see fly.toml).
-ENV DB_PATH=/data/data.sqlite
 EXPOSE 4000
 
+# DATABASE_URL comes from environment. Defaults to file:data.sqlite if not set.
 CMD ["node", "src/index.js"]
