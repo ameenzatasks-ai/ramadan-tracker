@@ -21,8 +21,10 @@ export const db = client;
 
 // Initialize schema on startup. libsql uses async for all operations,
 // so we wrap the init in a function called from index.js.
+// NOTE: remote Turso (Hrana/HTTP) rejects multi-statement strings via execute(),
+// so the schema script must run through executeMultiple().
 export async function initDatabase() {
-  await db.execute(`
+  await db.executeMultiple(`
     CREATE TABLE IF NOT EXISTS users (
       id INTEGER PRIMARY KEY AUTOINCREMENT,
       full_name TEXT NOT NULL,
