@@ -1,0 +1,34 @@
+{
+  "expo": {
+    "name": "Ramadan Goal Companion",
+    "slug": "ramadan-goal-companion",
+    "scheme": "ramadangoalcompanion",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "userInterfaceStyle": "automatic",
+    "newArchEnabled": false,
+    "splash": {
+      "backgroundColor": "#004643",
+      "resizeMode": "contain"
+    },
+    "ios": {
+      "supportsTablet": false,
+      "bundleIdentifier": "com.ramadangoalcompanion.app"
+    },
+    "android": {
+      "package": "com.ramadangoalcompanion.app",
+      "adaptiveIcon": {
+        "backgroundColor": "#004643"
+      }
+    },
+    "extra": {
+      "apiBaseUrl": "http://localhost:4000",
+      "googleWebClientId": "106791729690-j9o2s3knbblmoiu82gu73ctir444ataq.apps.googleusercontent.com",
+      "googleIosClientId": "",
+      "googleAndroidClientId": ""
+    },
+    "plugins": [
+      "expo-font"
+    ]
+  }
+}

@@ -1,0 +1,25 @@
+node_modules/
+*.log
+.DS_Store
+
+# Env files (never commit) — but keep the example template
+.env
+.env.*
+!.env.example
+
+# Local DB
+server/data.sqlite
+server/data.sqlite-journal
+server/data.sqlite-wal
+server/data.sqlite-shm
+
+# Expo
+mobile/.expo/
+mobile/.expo-shared/
+mobile/dist/
+mobile/web-build/
+
+# Build artifacts
+build/
+ios/
+android/

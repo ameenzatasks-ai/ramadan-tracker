@@ -1,0 +1,47 @@
+# Fly.io configuration for the Ramadan Goal Companion backend.
+# Run `fly deploy` from inside the server/ directory.
+#
+# Notes:
+#  - `app` must be globally unique. `fly launch` will offer to rename it if taken.
+#  - `primary_region` is set to iad (US East). Change to one near you — run
+#    `fly platform regions` to list options (e.g. lhr=London, fra=Frankfurt).
+#  - The SQLite database is stored on the `ramadan_data` volume mounted at /data,
+#    so it persists across restarts and deploys.
+
+app = "ramadan-goal-companion"
+primary_region = "iad"
+
+[build]
+
+[env]
+  PORT = "4000"
+  NODE_ENV = "production"
+  DB_PATH = "/data/data.sqlite"
+  # Ramadan 1448 AH (2027) estimates — confirm nearer the time (moon sighting).
+  RAMADAN_START_DATE = "2027-02-08"
+  RAMADAN_END_DATE = "2027-03-09"
+  # Secrets (JWT_SECRET, SMTP_*, GOOGLE_CLIENT_ID) are set with `fly secrets set`.
+
+[http_service]
+  internal_port = 4000
+  force_https = true
+  auto_stop_machines = "stop"
+  auto_start_machines = true
+  # Sleep when idle to stay cheap; first request after idle has a short cold start.
+  # Set to 1 if you want it always warm (small monthly cost).
+  min_machines_running = 0
+
+  [[http_service.checks]]
+    grace_period = "10s"
+    interval = "30s"
+    method = "GET"
+    timeout = "5s"
+    path = "/health"
+
+[mounts]
+  source = "ramadan_data"
+  destination = "/data"
+
+[[vm]]
+  size = "shared-cpu-1x"
+  memory = "256mb"
